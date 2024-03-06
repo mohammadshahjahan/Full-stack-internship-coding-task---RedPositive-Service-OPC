@@ -5,11 +5,12 @@ import { useCallback, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
 
 interface ModalProps {
+  id?: string;
   isOpen?: boolean;
   onClose: () => void;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
+const EditModal: React.FC<ModalProps> = ({ id, isOpen, onClose }) => {
   const handleClose = useCallback(() => {
     onClose();
   }, [onClose]);
@@ -52,8 +53,8 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     if (!isValid) return;
 
     try {
-      const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_HOST}/addPerson`,
+      const response = await axios.put(
+        `${process.env.NEXT_PUBLIC_BACKEND_HOST}//updatePerson/${id}`,
         {
           name,
           phoneNumber: phone,
@@ -71,7 +72,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
       setName("");
       setPhone("");
     }
-  }, [name, email, hobbies, phone]);
+  }, [id, name, email, hobbies, phone]);
 
   if (!isOpen) {
     return null;
@@ -271,4 +272,4 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
   );
 };
 
-export default Modal;
+export default EditModal;
